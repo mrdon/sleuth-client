@@ -144,6 +144,7 @@ def send_deployment(
         "date": datetime.utcnow().isoformat(),
         "commits": [c.to_json() for c in commits],
         "files": [f.to_json() for f in files],
+        "pull_requests": [],
     }
     headers = {"AUTHORIZATION": f"apikey {args.token}"}
     resp = requests.post(
@@ -159,19 +160,29 @@ def send_deployment(
 
 def main():
     parser = argparse.ArgumentParser(description="Submit a deploy to Sleuth.")
-    parser.add_argument("-k", "--api-key", dest="token", required=True, help="the Sleuth API key")
-    parser.add_argument("-o", "--org", dest="org", required=True, help="the Sleuth organization slug")
     parser.add_argument(
-        "-d", "--deployment", dest="deployment",required=True,  help="the Sleuth deployment slug"
+        "-k", "--api-key", dest="token", required=True, help="the Sleuth API key"
+    )
+    parser.add_argument(
+        "-o", "--org", dest="org", required=True, help="the Sleuth organization slug"
+    )
+    parser.add_argument(
+        "-d",
+        "--deployment",
+        dest="deployment",
+        required=True,
+        help="the Sleuth deployment slug",
     )
     parser.add_argument(
         "--commit-url-pattern",
-        dest="commit_url_pattern",required=True,
+        dest="commit_url_pattern",
+        required=True,
         help="the commit URL pattern to use for linking",
     )
     parser.add_argument(
         "--file-url-pattern",
-        dest="file_url_pattern",required=True,
+        dest="file_url_pattern",
+        required=True,
         help="the file URL pattern to use for linking",
     )
     parser.add_argument(
