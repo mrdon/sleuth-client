@@ -159,15 +159,20 @@ def send_deployment(
 
 def main():
     parser = argparse.ArgumentParser(description="Submit a deploy to Sleuth.")
+    parser.add_argument("-k", "--api-key", dest="token", required=True, help="the Sleuth API key")
+    parser.add_argument("-o", "--org", dest="org", required=True, help="the Sleuth organization slug")
     parser.add_argument(
-        "--baseurl",
-        type=str,
-        default="https://app.sleuth.io",
-        help="the base Sleuth URL",
+        "-d", "--deployment", dest="deployment",required=True,  help="the Sleuth deployment slug"
     )
-    parser.add_argument("-o", "--org", dest="org", help="the Sleuth organization slug")
     parser.add_argument(
-        "-d", "--deployment", dest="deployment", help="the Sleuth deployment slug"
+        "--commit-url-pattern",
+        dest="commit_url_pattern",required=True,
+        help="the commit URL pattern to use for linking",
+    )
+    parser.add_argument(
+        "--file-url-pattern",
+        dest="file_url_pattern",required=True,
+        help="the file URL pattern to use for linking",
     )
     parser.add_argument(
         "-e",
@@ -176,16 +181,11 @@ def main():
         default="production",
         help="the Sleuth environment slug",
     )
-    parser.add_argument("-k", "--api-key", dest="token", help="the Sleuth API key")
     parser.add_argument(
-        "--commit-url-pattern",
-        dest="commit_url_pattern",
-        help="the commit URL pattern to use for linking",
-    )
-    parser.add_argument(
-        "--file-url-pattern",
-        dest="file_url_pattern",
-        help="the file URL pattern to use for linking",
+        "--baseurl",
+        type=str,
+        default="https://app.sleuth.io",
+        help="the base Sleuth URL",
     )
     parser.add_argument("path", nargs="?", help="the path to the git repository")
 

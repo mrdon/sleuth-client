@@ -1,4 +1,4 @@
-.PHONY: help lint format check-formaty
+.PHONY: help lint format check-format dist
 
 # Help system from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 .DEFAULT_GOAL := help
@@ -22,7 +22,13 @@ format: ## Format Python code
 	pipenv run black .
 	pipenv run reorder-python-imports --py38-plus app.py || pipenv run black .
 
+dist: ## Builds the app with pyinstaller
+	pipenv run pyinstaller app.spec
+
+run: ## Runs the app
+	pipenv run python app.py
+
 clean: pyenv ## Cleans and rebuilds sleuth
-	echo "Nothing to clean"
+	rm -rf dist
 
 

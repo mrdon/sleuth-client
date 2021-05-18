@@ -12,6 +12,7 @@ pre-commit = "*"
 pylint = "*"
 reorder-python-imports = "*"
 unittest-xml-reporting = "*"
+pyinstaller = "*"
 
 [packages]
 gitpython = "*"
