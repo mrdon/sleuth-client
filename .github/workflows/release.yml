@@ -37,6 +37,7 @@ jobs:
             -k $SLEUTH_TOKEN \
             -o sleuth \
             -d sleuth-client \
+            -e staging \
             --commit-url-pattern https://github.com/sleuth-io/sleuth-client/commit/REVISION \
             --file-url-pattern https://github.com/sleuth-io/sleuth-client/blob/REVISION/PATH \
             --baseurl https://staging.sleuth.io
