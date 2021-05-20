@@ -10,12 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Set up Python 3.x
+          uses: actions/setup-python@v2
+          with:
+            python-version: '3.8'
       - name: Call sleuth
         env:
           SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_TOKEN }}
-        with:
-          # Semantic version range syntax or exact version of a Python version
-          python-version: '3.8'
         run: |
           python3 -m pip install --upgrade pipenv wheel
           pipenv --python python3.8
