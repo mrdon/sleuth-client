@@ -76,7 +76,6 @@ def get_latest_revision(
     }}
 }}            
     """
-    print(f"query: {query}")
     headers = {"AUTHORIZATION": f"apikey {token}"}
     resp = requests.get(f"{url}/graphql", json=dict(query=query), headers=headers)
     if resp.status_code != 200:
@@ -107,8 +106,6 @@ def get_commit_list(
     for commit in commit_list:
         diff_list: List[Diff] = last_commit.diff(commit.hexsha)
         rcommit = RemoteCommit(args.commit_url_pattern, commit)
-        print(f"Revision: {commit.hexsha}")
-        print(f"Message:  {commit.message}")
         rcommit.files.update(_get_files_in_diff_list(diff_list))
         result.append(rcommit)
         last_commit = commit
