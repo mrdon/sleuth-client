@@ -21,7 +21,7 @@ jobs:
           python3 -m pip install --upgrade pipenv wheel
           pipenv --python python3.8
           pipenv install --dev
-          pipenv run app.py \
+          pipenv run python app.py \
             -k $SLEUTH_TOKEN \
             -o sleuth \
             -d sleuth-client \
