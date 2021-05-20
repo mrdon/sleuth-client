@@ -30,7 +30,7 @@ jobs:
           make pyenv
       - name: Generate binary
         run: |
-          - make dist
+          make dist
       - name: Call sleuth
         env:
           SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_KEY }}
