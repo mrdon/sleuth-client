@@ -13,8 +13,12 @@ jobs:
       - name: Call sleuth
         env:
           SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_TOKEN }}
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.8'
         run: |
           python3 -m pip install --upgrade pipenv wheel
+          pipenv --python python3.8
           pipenv install --dev
           pipenv run app.py \
             -k $SLEUTH_TOKEN \
