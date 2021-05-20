@@ -24,13 +24,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
-      - name: Call sleuth
-        env:
-          SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_KEY }}
+      - name: Install pipenv and deps
         run: |
           python3 -m pip install --upgrade pipenv wheel
           pipenv --python python3.8
           pipenv install --dev
+      - name: Call sleuth
+        env:
+          SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_KEY }}
+        run: |
           pipenv run python app.py \
             -k $SLEUTH_TOKEN \
             -o sleuth \

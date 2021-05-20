@@ -51,14 +51,14 @@ class RemoteFile:
         self.path = path
         self.url = file_url_pattern.replace("REVISION", revision).replace("PATH", path)
         self.additions = 0
-        self.removals = 0
+        self.deletions = 0
 
     def to_json(self):
         return {
             "path": self.path,
             "url": self.url,
             "additions": self.additions,
-            "removals": self.removals,
+            "deletions": self.deletions,
         }
 
 
