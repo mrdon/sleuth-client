@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['sleuth/__init__.py'],
+a = Analysis(['sleuth/cli.py'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='sleuth-client',
+          name='sleuth',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
