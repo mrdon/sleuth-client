@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['app.py'],
+a = Analysis(['sleuth/__init__.py'],
              binaries=[],
              datas=[],
              hiddenimports=[],

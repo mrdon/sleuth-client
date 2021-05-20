@@ -20,24 +20,34 @@ jobs:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
           # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('setup.cfg') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
       - name: Install pipenv and deps
         run: |
-          python3 -m pip install --upgrade pipenv wheel
-          pipenv --python python3.8
-          pipenv install --dev
+          python3 -m pip install --upgrade wheel
+          make pyenv
+      - name: Generate binary
+        run: |
+          - make dist
       - name: Call sleuth
         env:
           SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_KEY }}
         run: |
-          pipenv run python app.py \
+          sleuth \
             -k $SLEUTH_TOKEN \
+            --baseurl https://staging.sleuth.io \
+            deploy \
             -o sleuth \
             -d sleuth-client \
             -e staging \
             --commit-url-pattern https://github.com/sleuth-io/sleuth-client/commit/REVISION \
             --file-url-pattern https://github.com/sleuth-io/sleuth-client/blob/REVISION/PATH \
-            --baseurl https://staging.sleuth.io
+      - name: Create github release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: Release.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

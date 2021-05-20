@@ -1,22 +1,12 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
-black = "==21.4b2"
-flake8 = "*"
-ipdb = "*"
-mypy = "*"
-pre-commit = "*"
-pylint = "*"
-reorder-python-imports = "*"
-unittest-xml-reporting = "*"
-pyinstaller = "*"
+name = "pypi"
 
 [packages]
-gitpython = "*"
-requests = "*"
+sleuth-client = {editable = true, file = "file:///home/mrdon/dev/sleuth-client"}
+
+[dev-packages]
 
 [requires]
-python_version = "3.8.9"
+python_version = "3.8"
