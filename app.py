@@ -147,6 +147,7 @@ def send_deployment(
         "pull_requests": [],
     }
     headers = {"AUTHORIZATION": f"apikey {args.token}"}
+    print(f"Sending: \n{body}")
     resp = requests.post(
         f"{args.baseurl}/api/1/deployments/{args.org}/{args.deployment}/register_deploy",
         json=body,
