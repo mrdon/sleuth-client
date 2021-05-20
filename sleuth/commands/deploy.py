@@ -26,6 +26,8 @@ class DeploymentContext:
     organization: str
     deployment: str
     environment: str
+    commit_url_pattern: str
+    file_url_pattern: str
 
 
 @click.command()
@@ -51,7 +53,9 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
     latest_revision = get_latest_revision(ctx.baseurl, ctx.api_key, organization, deployment, environment)
     head_commit = repo.commit()
 
-    deployment_context = DeploymentContext(ctx, organization, deployment, environment)
+    deployment_context = DeploymentContext(
+        ctx, organization, deployment, environment, commit_url_pattern, file_url_pattern
+    )
     if not latest_revision:
         if head_commit.parents:
             parent: Commit = head_commit.parents[0]
