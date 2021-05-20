@@ -3,8 +3,10 @@ import json
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from time import sleep
 from typing import Iterable
 from typing import List
+from typing import Optional
 from typing import Set
 
 import requests
@@ -64,7 +66,7 @@ class RemoteFile:
 
 def get_latest_revision(
     url: str, token: str, org: str, deployment: str, environment: str
-):
+) -> Optional[str]:
     query = f"""
 {{
     deployment(orgSlug:"{org}", deploymentSlug:"{deployment}") {{
@@ -78,14 +80,15 @@ def get_latest_revision(
     """
     headers = {"AUTHORIZATION": f"apikey {token}"}
     resp = requests.get(f"{url}/graphql", json=dict(query=query), headers=headers)
-    if resp.status_code != 200:
+    if resp.status_code == 401:
         raise ValueError("Unable to authenticate to Sleuth")
 
     body = resp.json()
     if body.get("errors"):
         raise ValueError("Errors retrieving latest deployment: {body['errors']")
 
-    return resp.json()["data"]["deployment"]["latestChange"]["revision"]
+    deployment = resp.json()["data"]["deployment"]
+    return (deployment["latestChange"] or {}).get("revision")
 
 
 def list_paths(root_tree, path=Path(".")):
@@ -141,6 +144,7 @@ def send_deployment(
         "date": datetime.utcnow().isoformat(),
         "commits": [c.to_json() for c in commits],
         "files": [f.to_json() for f in files],
+        "ignore_if_duplicate": "true",
         "pull_requests": [],
     }
     headers = {"AUTHORIZATION": f"apikey {args.token}"}
@@ -150,9 +154,12 @@ def send_deployment(
         json=body,
         headers=headers,
     )
-    if resp.status_code > 299:
+    if resp.status_code == 401:
         print(f" Response: {resp.text}")
         raise ValueError("Unable to authenticate to Sleuth")
+    elif resp.status_code != 200:
+        raise ValueError(f"Unexpected response: {resp.text}")
+
     print("Deployment registered!")
 
 
@@ -200,12 +207,41 @@ def main():
 
     args = parser.parse_args()
 
+    repo = Repo(args.path)
     latest_revision = get_latest_revision(
         args.baseurl, args.token, args.org, args.deployment, args.environment
     )
-    repo = Repo(args.path)
-    latest_commit = repo.commit(latest_revision)
     head_commit = repo.commit()
+
+    if not latest_revision:
+        if head_commit.parents:
+            parent: Commit = head_commit.parents[0]
+            print("Sending initial state prior to the first deployment")
+
+            send_deployment(
+                args,
+                parent,
+                [RemoteCommit(args.commit_url_pattern, parent)],
+                [RemoteFile(args.file_url_pattern, parent.hexsha, "ignored")],
+            )
+            latest_revision = parent.hexsha
+            # This is a terrible hack because we can't detect whether the root deploy has been processed or not
+            sleep(5)
+        else:
+            print(
+                "Only one commit detected, so you won't see anything in Sleuth until there are two"
+            )
+            print("Sending initial state prior to the first deployment")
+
+            send_deployment(
+                args,
+                head_commit,
+                [RemoteCommit(args.commit_url_pattern, head_commit)],
+                [RemoteFile(args.file_url_pattern, head_commit.hexsha, "ignored")],
+            )
+            return
+
+    latest_commit = repo.commit(latest_revision)
     commits = get_commit_list(args, head_commit, latest_commit, repo)
     files = get_files_list(args, head_commit, latest_commit)
 
