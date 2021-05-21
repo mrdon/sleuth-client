@@ -3,8 +3,6 @@
 `sleuth-client` connects your git repository to [Sleuth](https://sleuth.io). It collects deployment information 
 from your local git repository and publishes it to Sleuth.
 
-![screenshot of gh pr status](https://user-images.githubusercontent.com/98482/84171218-327e7a80-aa40-11ea-8cd1-5177fc2d0e72.png)
-
 Sleuth Client is available to install in binary form on Linux (macOS and Windows coming soon) or any other system 
 that supports Python 3.8.
 
