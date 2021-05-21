@@ -83,6 +83,10 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
             return
 
     latest_commit = repo.commit(latest_revision)
+    if latest_commit.hexsha == head_commit.hexsha:
+        click.echo(f"No changes detected, skipping deploy")
+        return
+    
     click.echo(f"Determining differences from {latest_commit.hexsha} to {head_commit.hexsha}")
     commits = get_commit_list(deployment_context, head_commit, latest_commit, repo)
     files = get_files_list(deployment_context, head_commit, latest_commit)
