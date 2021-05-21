@@ -83,7 +83,8 @@ jobs:
               repo: context.repo.repo,
               release_id: RELEASE_ID,
               data: binary,
-              name: "sleuth",
+              path: "sleuth",
+              name: name,
               label: `sleuth for ${RUNNER}`
             });
         env:
