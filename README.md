@@ -3,8 +3,8 @@
 `sleuth-client` connects your git repository to [Sleuth](https://sleuth.io). It collects deployment information 
 from your local git repository and publishes it to Sleuth.
 
-Sleuth Client is available to install in binary form on Linux (macOS and Windows coming soon) or any other system 
-that supports Python 3.8.
+Sleuth Client is available to install in binary form on Linux and macOS or any other 
+system that supports Python 3.8.
 
 ## Documentation
 
@@ -24,6 +24,15 @@ The latest release can be downloaded directly via:
 ```
 wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth
 chmod 755 sleuth
+```
+
+### MacOS
+
+The latest release can be downloaded directly via:
+
+```
+wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth-macOS
+chmod 755 sleuth-macOS
 ```
 
 ### Other platforms
