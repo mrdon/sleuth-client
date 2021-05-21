@@ -74,6 +74,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            var fs = require('fs');
             const binary = fs.readFileSync("dist/sleuth");
             const {RUNNER, RELEASE_ID} = process.env
             const response = await github.repos.uploadReleaseAsset({
