@@ -19,7 +19,12 @@ TODO
 
 ### Linux
 
-TODO
+The latest release can be downloaded directly via:
+
+```
+wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth
+chmod 755 sleuth
+```
 
 ### Other platforms
 

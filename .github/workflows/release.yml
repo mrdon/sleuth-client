@@ -5,7 +5,11 @@ on:
 
 jobs:
   push-to-sleuth:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        python-version: [ 3.8 ]
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python 3.x
@@ -56,11 +60,12 @@ jobs:
             -d sleuth-client \
             -e production \
             --commit-url-pattern https://github.com/sleuth-io/sleuth-client/commit/REVISION \
-            --file-url-pattern https://github.com/sleuth-io/sleuth-client/blob/REVISION/PATH \
-      - name: Create github release
+            --file-url-pattern https://github.com/sleuth-io/sleuth-client/blob/REVISION/PATH
+      - name: Create github release (version)
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: sleuth for ${{ matrix.os }}
           files: dist/sleuth
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
