@@ -22,3 +22,6 @@ def main(ctx, api_key, baseurl):
 
 
 main.add_command(deploy)
+
+if __name__ == "__main__":
+    main()
