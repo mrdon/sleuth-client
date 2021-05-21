@@ -80,8 +80,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: RELEASE_ID,
-              data: binary
-              name: sleuth
+              data: binary,
+              name: "sleuth",
               label: `sleuth for ${RUNNER}`
             });
         env:
