@@ -85,5 +85,5 @@ jobs:
               label: "sleuth for " + RUNNER
             });
         env:
-          RUNNER: ${{ os.runner }}
+          RUNNER: ${{ runner.os }}
           RELEASE_ID:  ${{ steps.create-release.outputs.id }}
