@@ -59,7 +59,7 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
     if not latest_revision:
         if head_commit.parents:
             parent: Commit = head_commit.parents[0]
-            print("Sending initial state prior to the first deployment")
+            click.echo("Sending initial state prior to the first deployment")
 
             send_deployment(
                 deployment_context,
@@ -71,8 +71,8 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
             # This is a terrible hack because we can't detect whether the root deploy has been processed or not
             sleep(5)
         else:
-            print("Only one commit detected, so you won't see anything in Sleuth until there are two")
-            print("Sending initial state prior to the first deployment")
+            click.echo("Only one commit detected, so you won't see anything in Sleuth until there are two")
+            click.echo("Sending initial state prior to the first deployment")
 
             send_deployment(
                 deployment_context,
@@ -80,9 +80,10 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
                 [RemoteCommit(commit_url_pattern, head_commit)],
                 [RemoteFile(file_url_pattern, head_commit.hexsha, "ignored")],
             )
-            exit(0)
+            return
 
     latest_commit = repo.commit(latest_revision)
+    click.echo(f"Determining differences from {latest_commit.hexsha} to {head_commit.hexsha}")
     commits = get_commit_list(deployment_context, head_commit, latest_commit, repo)
     files = get_files_list(deployment_context, head_commit, latest_commit)
 

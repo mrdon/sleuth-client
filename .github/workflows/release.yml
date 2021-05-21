@@ -38,7 +38,7 @@ jobs:
         env:
           SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_KEY }}
         run: |
-          venv/bin/sleuth \
+          dist/sleuth \
             -k $SLEUTH_TOKEN \
             --baseurl https://staging.sleuth.io \
             deploy \
@@ -52,7 +52,7 @@ jobs:
         env:
           SLEUTH_TOKEN: ${{ secrets.SLEUTH_STAGING_API_KEY }}
         run: |
-          venv/bin/sleuth \
+          dist/sleuth \
             -k $SLEUTH_TOKEN \
             --baseurl https://staging.sleuth.io \
             deploy \
@@ -65,7 +65,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: sleuth for ${{ matrix.os }}
+          name: sleuth for ${{ runner.os }}
           files: dist/sleuth
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
