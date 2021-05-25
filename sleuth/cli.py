@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import click
 
 from sleuth.commands.deploy import deploy
+from sleuth.commands.validate import validate
 from sleuth.version import version
 
 
@@ -15,13 +16,14 @@ class Context:
 @click.group()
 @click.version_option(version)
 @click.option("-k", "--api-key", required=True, help="the Sleuth API key")
-@click.option("--baseurl", default="https://app.sleuth.io", help="The Sleuth base URL")
+@click.option("--baseurl", default="https://app.sleuth.io", help="The Sleuth base URL", hidden=True)
 @click.pass_context
 def main(ctx, api_key, baseurl):
     ctx.obj = Context(baseurl=baseurl, api_key=api_key)
 
 
 main.add_command(deploy)
+main.add_command(validate)
 
 if __name__ == "__main__":
     main()
