@@ -12,7 +12,7 @@ class RemoteUser:
     email: str
 
     def to_json(self):
-        return {"name": self.name, "email": self.email}
+        return {"name": self.name, "email": self.email, "username": self.email}
 
 
 class RemoteCommit:
