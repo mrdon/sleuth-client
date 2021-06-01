@@ -10,9 +10,10 @@ from git import Repo
 
 from sleuth.models import RemoteCommit
 from sleuth.models import RemoteFile
+from sleuth.service import DeployInfo
 from sleuth.service import get_commit_list
 from sleuth.service import get_files_list
-from sleuth.service import get_latest_revision
+from sleuth.service import get_latest_deploy
 from sleuth.service import send_deployment
 
 
@@ -50,13 +51,13 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
     """Register a deploy using information from a local git repository"""
 
     repo = Repo(git_path)
-    latest_revision = get_latest_revision(ctx.baseurl, ctx.api_key, organization, deployment, environment)
+    latest_deploy = get_latest_deploy(ctx.baseurl, ctx.api_key, organization, deployment, environment)
     head_commit = repo.commit()
 
     deployment_context = DeploymentContext(
         ctx, organization, deployment, environment, commit_url_pattern, file_url_pattern
     )
-    if not latest_revision:
+    if not latest_deploy:
         if head_commit.parents:
             parent: Commit = head_commit.parents[0]
             click.echo("Sending initial state prior to the first deployment")
@@ -67,7 +68,7 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
                 [RemoteCommit(commit_url_pattern, parent)],
                 [RemoteFile(file_url_pattern, parent.hexsha, "ignored")],
             )
-            latest_revision = parent.hexsha
+            latest_deploy = DeployInfo(revision=parent.hexsha, slug="")
             # This is a terrible hack because we can't detect whether the root deploy has been processed or not
             sleep(5)
         else:
@@ -82,7 +83,7 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
             )
             return
 
-    latest_commit = repo.commit(latest_revision)
+    latest_commit = repo.commit(latest_deploy.revision)
     if latest_commit.hexsha == head_commit.hexsha:
         click.echo(f"No changes detected, skipping deploy")
         return

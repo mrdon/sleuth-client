@@ -11,8 +11,8 @@ pyenv: ## Install and setup local py env
 	venv/bin/pip install -r requirements.txt
 
 lint: ## Run Python linters
-	venv/bin/flake8 app.py
-	venv/bin/pylint app.py
+	venv/bin/flake8 sleuth
+	venv/bin/pylint sleuth
 
 check-format: lint-py ## Check Python code formatting
 	venv/bin/black sleuth --check
@@ -26,7 +26,7 @@ dist: ## Builds the app with pyinstaller
 	venv/bin/pyinstaller app.spec
 
 run: ## Runs the app
-	venv/bin/python app.py
+	venv/bin/sleuth
 
 clean: pyenv ## Cleans and rebuilds sleuth
 	rm -rf dist

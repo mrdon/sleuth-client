@@ -38,6 +38,17 @@ For example:
 sleuth -k my_key deploy -o my_org -d my_deployment .sleuth/rules.yml
 ```
 
+### `set-health`
+
+The `set-health` command sets the health for a deployment by finding the latest deploy for that deployment and 
+overriding its health.
+
+For example:
+
+```
+sleuth -k my_key set-health -o my_org -d my_deployment unhealthy
+```
+
 ## Installation
 
 ### Linux

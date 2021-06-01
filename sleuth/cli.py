@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import click
 
 from sleuth.commands.deploy import deploy
+from sleuth.commands.set_health import set_health
 from sleuth.commands.validate import validate
 from sleuth.version import version
 
@@ -24,6 +25,8 @@ def main(ctx, api_key, baseurl):
 
 main.add_command(deploy)
 main.add_command(validate)
+main.add_command(set_health)
 
 if __name__ == "__main__":
+    # pylint: disable=no-value-for-parameter
     main()

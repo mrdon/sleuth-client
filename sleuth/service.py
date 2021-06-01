@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import typing
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable
@@ -20,17 +21,26 @@ if typing.TYPE_CHECKING:
     from .commands.deploy import DeploymentContext
 
 
-def get_latest_revision(url: str, token: str, org: str, deployment: str, environment: str) -> Optional[str]:
+@dataclass
+class DeployInfo:
+    slug: str
+    revision: str
+    url: str
+
+
+def get_latest_deploy(url: str, token: str, org: str, deployment: str, environment: str) -> Optional[DeployInfo]:
     query = f"""
 {{
     deployment(orgSlug:"{org}", deploymentSlug:"{deployment}") {{
         ... on CodeChangeSource {{
             latestChange(environmentSlug:"{environment}") {{
                 revision
+                slug
+                url
             }}
         }}
     }}
-}}            
+}}
     """
     headers = {"AUTHORIZATION": f"apikey {token}"}
     resp = requests.get(f"{url}/graphql", json=dict(query=query), headers=headers)
@@ -39,10 +49,14 @@ def get_latest_revision(url: str, token: str, org: str, deployment: str, environ
 
     body = resp.json()
     if body.get("errors"):
-        raise ValueError("Errors retrieving latest deployment: {body['errors']")
+        raise ValueError(f"Errors retrieving latest deployment: {body['errors']}")
 
     deployment = resp.json()["data"]["deployment"]
-    return (deployment["latestChange"] or {}).get("revision")
+    change = deployment["latestChange"] or {}
+    if change:
+        return DeployInfo(slug=change["slug"], revision=change["revision"], url=change["url"])
+    else:
+        return None
 
 
 def list_paths(root_tree, path=Path(".")):
