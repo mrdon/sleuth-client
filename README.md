@@ -8,12 +8,35 @@ system that supports Python 3.8.
 
 ## Documentation
 
-TODO
+The sleuth client supports multiple commands. To discover what they are, run:
 
-## Contributing
+```
+sleuth --help
+```
 
-TODO
+Most commands require the `-k` argument to be first passed in, which is the API key used to authenticate to Sleuth.
 
+### `deploy`
+
+The `deploy` command collects diff information from a local git repository and submits it to Sleuth
+as a "deploy" or release. For example:
+
+```
+sleuth -k my_key deploy -o my_org -d my_deployment .
+```
+
+### `validate`
+
+The `validate` command takes a Sleuth Actions file as an argument and validates it against your organization's 
+schema. It allows you to validate your `rules.yml` file either locally or in a continuous integration (CI) server.
+
+To learn more about Sleuth Actions and the file format, see the [documentation](https://help.sleuth.io/actions).
+
+For example:
+
+```
+sleuth -k my_key deploy -o my_org -d my_deployment .sleuth/rules.yml
+```
 
 ## Installation
 
@@ -34,23 +57,3 @@ The latest release can be downloaded directly via:
 wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth-macOS
 chmod 755 sleuth-macOS
 ```
-
-### Other platforms
-
-TODO
-
-### Run from source
-
-TODO
-
-[manual]: https://cli.github.com/manual/
-[Homebrew]: https://brew.sh
-[MacPorts]: https://www.macports.org
-[winget]: https://github.com/microsoft/winget-cli
-[scoop]: https://scoop.sh
-[Chocolatey]: https://chocolatey.org
-[releases page]: https://github.com/cli/cli/releases/latest
-[hub]: https://github.com/github/hub
-[contributing]: ./.github/CONTRIBUTING.md
-[gh-vs-hub]: ./docs/gh-vs-hub.md
-[build from source]: ./docs/source.md
