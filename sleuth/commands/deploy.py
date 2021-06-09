@@ -68,7 +68,7 @@ def deploy(ctx: Context, organization, deployment, environment, commit_url_patte
                 [RemoteCommit(commit_url_pattern, parent)],
                 [RemoteFile(file_url_pattern, parent.hexsha, "ignored")],
             )
-            latest_deploy = DeployInfo(revision=parent.hexsha, slug="")
+            latest_deploy = DeployInfo(revision=parent.hexsha, slug="", url="")
             # This is a terrible hack because we can't detect whether the root deploy has been processed or not
             sleep(5)
         else:
