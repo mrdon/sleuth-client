@@ -32,8 +32,8 @@ class RemoteCommit:
             "message": self.message,
             "author": self.author.to_json(),
             "date": self.date.isoformat(),
-            "files": list(self.files),
-            "parents": list(self.parents),
+            "files": list(self.files)[:200],
+            "parents": list(self.parents)[:200],
             "url": self.url,
         }
 
