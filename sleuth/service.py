@@ -106,8 +106,8 @@ def send_deployment(
         "sha": head_commit.hexsha,
         "environment": context.environment,
         "date": datetime.utcnow().isoformat(),
-        "commits": [c.to_json() for c in commits],
-        "files": [f.to_json() for f in files],
+        "commits": [c.to_json() for c in commits[:250]],
+        "files": [f.to_json() for f in files[:200]],
         "ignore_if_duplicate": "true",
         "pull_requests": [],
     }
