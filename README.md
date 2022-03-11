@@ -68,3 +68,4 @@ The latest release can be downloaded directly via:
 wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth-macOS
 chmod 755 sleuth-macOS
 ```
+
