@@ -16,6 +16,13 @@ sleuth --help
 
 Most commands require the `-k` argument to be first passed in, which is the API key used to authenticate to Sleuth.
 
+If the command needs an org or code deployment slug, these can be found in the URL for your target code deployment in the Sleuth UI. For example, this URL is to the `my_deployment` code deployment for the `my_org` organization:
+
+```
+https://app.sleuth.io/my_org/deployments/my_deployment?env_slug=production
+```
+
+
 ### `deploy`
 
 The `deploy` command collects diff information from a local git repository and submits it to Sleuth
