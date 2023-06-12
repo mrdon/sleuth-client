@@ -27,10 +27,12 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
       - name: Install pipenv and deps
+        shell: bash
         run: |
           python3 -m pip install --upgrade wheel
           python3 -m pip install -r requirements.txt
       - name: Generate binary
+        shell: bash
         run: |
           pyinstaller app.spec
       - name: Call sleuth (staging)
