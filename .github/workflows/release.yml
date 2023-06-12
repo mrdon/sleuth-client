@@ -29,10 +29,10 @@ jobs:
       - name: Install pipenv and deps
         run: |
           python3 -m pip install --upgrade wheel
-          make pyenv
+          python3 -m pip install -r requirements.txt
       - name: Generate binary
         run: |
-          make dist
+          pyinstaller app.spec
       - name: Call sleuth (staging)
         if: github.ref == 'refs/heads/master'
         env:
