@@ -87,8 +87,8 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             var fs = require('fs');
-            const binary = fs.readFileSync("dist/sleuth");
             const {RUNNER, RELEASE_ID} = process.env
+            const binary = RUNNER === "Windows" ? fs.readFileSync("dist/sleuth.exe") : fs.readFileSync("dist/sleuth");
             const name = RUNNER === "Linux" ? "sleuth" : `sleuth-${RUNNER}`
             const response = await github.repos.uploadReleaseAsset({
               owner: context.repo.owner,
