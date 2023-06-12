@@ -12,6 +12,9 @@ jobs:
         python-version: [ 3.8 ]
     steps:
       - uses: actions/checkout@v3
+        with:
+          # Deep clone is needed to get the commit history, to enable running the sleuth deploy command
+          fetch-depth: 0
       - name: Set up Python 3.x
         uses: actions/setup-python@v2
         with:
