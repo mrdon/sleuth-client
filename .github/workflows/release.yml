@@ -35,6 +35,11 @@ jobs:
         shell: bash
         run: |
           pyinstaller app.spec
+      - name: Save binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: client-binary-${{ runner.os }}
+          path: dist
       - name: Call sleuth (staging)
         if: github.ref == 'refs/heads/master'
         env:
