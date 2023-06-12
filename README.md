@@ -76,3 +76,10 @@ wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth-
 chmod 755 sleuth-macOS
 ```
 
+### Windows
+
+The latest release can be downloaded directly in PowerShell via:
+
+```
+wget https://github.com/sleuth-io/sleuth-client/releases/latest/download/sleuth-Windows -OutFile sleuth.exe
+```
