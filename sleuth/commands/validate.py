@@ -53,7 +53,7 @@ def validate_rules(context: DeploymentContext, path: str) -> typing.Dict:
         "map": json.dumps({"0": ["variables.file"]}),
     }
     files = {"0": open(path, "rb")}
-    headers = {"AUTHORIZATION": f"apikey {context.root.api_key}"}
+    headers = {"AUTHORIZATION": f"Bearer {context.root.api_key}"}
     resp = requests.post(
         f"{context.root.baseurl}/graphql",
         data=values,

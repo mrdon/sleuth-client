@@ -42,7 +42,7 @@ def get_latest_deploy(url: str, token: str, org: str, deployment: str, environme
     }}
 }}
     """
-    headers = {"AUTHORIZATION": f"apikey {token}"}
+    headers = {"AUTHORIZATION": f"Bearer {token}"}
     resp = requests.get(f"{url}/graphql", json=dict(query=query), headers=headers)
     if resp.status_code == 401:
         raise ValueError("Unable to authenticate to Sleuth")
@@ -111,7 +111,7 @@ def send_deployment(
         "ignore_if_duplicate": "true",
         "pull_requests": [],
     }
-    headers = {"AUTHORIZATION": f"apikey {context.root.api_key}"}
+    headers = {"AUTHORIZATION": f"Bearer {context.root.api_key}"}
     print(f"Sending: \n{body}")
     resp = requests.post(
         f"{context.root.baseurl}/api/1/deployments/{context.organization}/{context.deployment}/register_deploy",
