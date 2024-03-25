@@ -58,7 +58,7 @@ def set_deploy_health(context: DeploymentContext, deploy: str, health: str) -> b
                 }}
             }}
             """  # noqa
-    headers = {"AUTHORIZATION": f"apikey {context.root.api_key}"}
+    headers = {"AUTHORIZATION": f"Bearer {context.root.api_key}"}
     resp = requests.post(
         f"{context.root.baseurl}/graphql",
         json=dict(query=query),
